@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ผลการเรียน โรงเรียนประชาบำรุง</title>
+  <meta name="theme-color" content="#980000">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ผลการเรียน">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:'Kanit','Sarabun',sans-serif; background:#f4f6f8; color:#2c3e50; }
+    .card { max-width:400px; width:calc(100% - 32px); margin:5vh auto; background:#fef8e7; border-radius:12px; overflow:hidden; box-shadow:0 10px 32px rgba(60,20,20,.14); }
+    .head { background:#980000; text-align:center; padding:26px 20px 20px; color:#fff; }
+    .head img { width:88px; height:88px; display:block; margin:0 auto 10px; }
+    .head .school { font-size:22px; font-weight:600; }
+    .head .sub { font-size:13px; color:#ffe600; margin-top:4px; }
+    .body { padding:20px 22px 26px; }
+    .go { display:block; text-align:center; text-decoration:none; background:#980000; color:#fff; font-weight:600; font-size:17px; padding:13px; border-radius:8px; }
+    .go:active { transform:scale(.98); }
+    h2 { font-size:15px; margin:22px 0 8px; color:#980000; }
+    ol { margin:0; padding-left:20px; font-size:14px; line-height:1.8; }
+    .note { font-size:12.5px; color:#777; margin-top:14px; line-height:1.6; }
+  </style>
+</head>
+<body>
+  <div class="card" id="page">
+    <div class="head">
+      <img src="icon-192.png" alt="โลโก้โรงเรียนประชาบำรุง">
+      <div class="school">โรงเรียนประชาบำรุง</div>
+      <div class="sub">แบบรายงานประจำตัวนักเรียน ปพ.6</div>
+    </div>
+    <div class="body">
+      <a class="go" id="go" href="#">เข้าสู่ระบบนักเรียน</a>
+
+      <h2>วางไอคอนไว้บนหน้าจอโทรศัพท์</h2>
+      <div id="tipAndroid">
+        <b style="font-size:14px">Android (Chrome)</b>
+        <ol>
+          <li>กดเมนู ⋮ มุมขวาบน</li>
+          <li>เลือก "ติดตั้งแอป" หรือ "เพิ่มไปยังหน้าจอหลัก"</li>
+          <li>กดยืนยัน แล้วไอคอนจะขึ้นที่หน้าจอ</li>
+        </ol>
+      </div>
+      <div id="tipIos" style="margin-top:12px">
+        <b style="font-size:14px">iPhone / iPad (Safari เท่านั้น)</b>
+        <ol>
+          <li>กดปุ่มแชร์ (สี่เหลี่ยมมีลูกศรขึ้น)</li>
+          <li>เลื่อนลงแล้วเลือก "เพิ่มลงในหน้าจอโฮม"</li>
+          <li>กด "เพิ่ม" มุมขวาบน</li>
+        </ol>
+      </div>
+      <div class="note">ต้องเพิ่มไอคอนจากหน้านี้ (ไม่ใช่หลังจากเข้าสู่ระบบแล้ว) เพื่อให้ได้โลโก้โรงเรียน</div>
+    </div>
+  </div>
+
+  <script>
+    // URL ของระบบนักเรียน (Google Apps Script) — แก้ตรงนี้ที่เดียวถ้า URL เปลี่ยน
+    var APP_URL = 'https://script.google.com/macros/s/AKfycbz0hOFOAdyyw-Hr3BZqnhoqC76v-9K7Co72tX8DBDo3QXNBNW4QmkhtMf2BgMxB4udt/exec';
+
+    document.getElementById('go').href = APP_URL;
+
+    // เปิดจากไอคอนบนหน้าจอโฮม (โหมดแอป) -> พาเข้าระบบทันที
+    var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+                     window.navigator.standalone === true;
+    if (standalone) {
+      document.getElementById('page').style.display = 'none';
+      location.replace(APP_URL);
+    }
+
+    // แสดงคำแนะนำเฉพาะแพลตฟอร์มที่ใช้อยู่
+    var ua = navigator.userAgent || '';
+    var isIos = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
+    var isAndroid = /Android/i.test(ua);
+    if (isIos && !isAndroid) document.getElementById('tipAndroid').style.display = 'none';
+    if (isAndroid) document.getElementById('tipIos').style.display = 'none';
+  </script>
+</body>
+</html>
